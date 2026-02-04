@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Trophy, TrendingUp, Clock, Filter } from 'lucide-react'
+import { Trophy, TrendingUp, Clock, Filter, Zap, Flame } from 'lucide-react'
 import PrizeProgress from '@/components/ui/PrizeProgress'
 import { FLAVOR_CATEGORIES } from '@/lib/types'
 
@@ -43,7 +43,7 @@ export default function LeaderboardPage() {
     if (index === 0) return 'rank-gold'
     if (index === 1) return 'rank-silver'
     if (index === 2) return 'rank-bronze'
-    return 'bg-muted text-foreground/60'
+    return 'bg-bg-card text-text-muted'
   }
 
   const filteredDonuts = flavorFilter
@@ -51,16 +51,17 @@ export default function LeaderboardPage() {
     : mockTopDonuts
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       {/* Hero */}
-      <section className="bg-gradient-to-r from-donut-pink to-donut-glaze py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center text-white">
-            <Trophy className="w-16 h-16 mx-auto mb-4" />
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              National Leaderboard
+      <section className="relative overflow-hidden py-12 border-b border-border">
+        <div className="absolute inset-0 bg-gradient-to-r from-donut-pink/10 via-donut-glaze/10 to-donut-sprinkles-blue/10"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="text-center">
+            <Trophy className="w-16 h-16 text-donut-sprinkles-yellow mx-auto mb-4" />
+            <h1 className="text-4xl md:text-5xl font-bold text-text-primary mb-4">
+              National Leaderboard 🏆
             </h1>
-            <p className="text-white/80 text-lg max-w-2xl mx-auto">
+            <p className="text-text-muted text-lg max-w-2xl mx-auto">
               Real-time rankings across all 50 states. Updated live as votes come in!
             </p>
           </div>
@@ -69,29 +70,29 @@ export default function LeaderboardPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Prize Progress */}
-        <div className="max-w-2xl mx-auto mb-8 -mt-12">
+        <div className="max-w-2xl mx-auto mb-8 -mt-8">
           <PrizeProgress initialCount={mockTotalVotes} />
         </div>
 
         {/* Tabs */}
         <div className="flex justify-center mb-8">
-          <div className="inline-flex bg-white rounded-full p-1 shadow-lg border border-border">
+          <div className="inline-flex bg-bg-secondary rounded-full p-1 border border-border">
             <button
               onClick={() => setActiveTab('donuts')}
-              className={`px-6 py-3 rounded-full font-semibold transition-colors ${
+              className={`px-6 py-3 rounded-full font-semibold transition-all ${
                 activeTab === 'donuts'
-                  ? 'bg-donut-pink text-white'
-                  : 'text-foreground/60 hover:text-foreground'
+                  ? 'bg-donut-pink text-white glow-pink'
+                  : 'text-text-muted hover:text-text-primary'
               }`}
             >
               🍩 Top Donuts
             </button>
             <button
               onClick={() => setActiveTab('shops')}
-              className={`px-6 py-3 rounded-full font-semibold transition-colors ${
+              className={`px-6 py-3 rounded-full font-semibold transition-all ${
                 activeTab === 'shops'
-                  ? 'bg-donut-chocolate text-white'
-                  : 'text-foreground/60 hover:text-foreground'
+                  ? 'bg-donut-glaze text-white'
+                  : 'text-text-muted hover:text-text-primary'
               }`}
             >
               🏪 Top Shops
@@ -104,10 +105,10 @@ export default function LeaderboardPage() {
           <div className="flex flex-wrap justify-center gap-2 mb-8">
             <button
               onClick={() => setFlavorFilter(null)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                 flavorFilter === null
                   ? 'bg-donut-pink text-white'
-                  : 'bg-white text-foreground/60 hover:bg-muted border border-border'
+                  : 'bg-bg-card text-text-muted hover:text-text-primary border border-border hover:border-donut-pink'
               }`}
             >
               All Flavors
@@ -116,10 +117,10 @@ export default function LeaderboardPage() {
               <button
                 key={cat.value}
                 onClick={() => setFlavorFilter(cat.value)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                   flavorFilter === cat.value
                     ? 'bg-donut-pink text-white'
-                    : 'bg-white text-foreground/60 hover:bg-muted border border-border'
+                    : 'bg-bg-card text-text-muted hover:text-text-primary border border-border hover:border-donut-pink'
                 }`}
               >
                 {cat.emoji} {cat.label}
@@ -129,17 +130,17 @@ export default function LeaderboardPage() {
         )}
 
         {/* Leaderboard List */}
-        <div className="bg-white rounded-2xl shadow-lg border border-border overflow-hidden">
+        <div className="bg-bg-secondary rounded-2xl border border-border overflow-hidden">
           {/* Header */}
-          <div className="bg-gradient-to-r from-donut-chocolate/10 to-donut-pink/10 px-6 py-4 flex items-center justify-between border-b border-border">
-            <div className="flex items-center gap-2 text-foreground/60">
+          <div className="bg-bg-card px-6 py-4 flex items-center justify-between border-b border-border">
+            <div className="flex items-center gap-2 text-text-muted">
               <Filter className="w-4 h-4" />
               <span className="text-sm">
                 Showing top {activeTab === 'donuts' ? filteredDonuts.length : mockTopShops.length} {activeTab}
               </span>
             </div>
             <div className="flex items-center gap-1 text-donut-sprinkles-green text-sm font-medium">
-              <Clock className="w-4 h-4" />
+              <Zap className="w-4 h-4" />
               Live Updates
             </div>
           </div>
@@ -151,7 +152,7 @@ export default function LeaderboardPage() {
                 <Link
                   key={donut.id}
                   href={`/donut/${donut.slug}`}
-                  className="donut-card flex items-center gap-4 p-4 md:p-6 hover:bg-muted/50 transition-colors"
+                  className="donut-card flex items-center gap-4 p-4 md:p-6 hover:bg-bg-card transition-colors"
                 >
                   {/* Rank */}
                   <div
@@ -161,17 +162,17 @@ export default function LeaderboardPage() {
                   </div>
 
                   {/* Image */}
-                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-muted flex items-center justify-center text-3xl flex-shrink-0">
+                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-bg-card flex items-center justify-center text-3xl flex-shrink-0 border border-border">
                     🍩
                   </div>
 
                   {/* Info */}
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-bold text-lg text-foreground truncate">{donut.name}</h4>
-                    <p className="text-sm text-foreground/60 truncate">
+                    <h4 className="font-bold text-lg text-text-primary truncate">{donut.name}</h4>
+                    <p className="text-sm text-text-muted truncate">
                       {donut.shop_name} • {donut.state_code}
                     </p>
-                    <span className="inline-block mt-1 px-2 py-0.5 bg-muted rounded-full text-xs text-foreground/60">
+                    <span className="inline-block mt-1 px-2 py-0.5 bg-bg-card rounded-full text-xs text-text-muted border border-border">
                       {FLAVOR_CATEGORIES.find(c => c.value === donut.flavor_category)?.emoji}{' '}
                       {FLAVOR_CATEGORIES.find(c => c.value === donut.flavor_category)?.label}
                     </span>
@@ -182,11 +183,11 @@ export default function LeaderboardPage() {
                     <div className="font-bold text-xl md:text-2xl text-donut-pink counter-value">
                       {donut.vote_count.toLocaleString()}
                     </div>
-                    <div className="text-xs text-foreground/50">votes</div>
+                    <div className="text-xs text-text-muted">votes</div>
                     {index < 3 && (
                       <div className="flex items-center gap-1 justify-end mt-1 text-donut-sprinkles-green text-xs">
-                        <TrendingUp className="w-3 h-3" />
-                        Rising
+                        <Flame className="w-3 h-3" />
+                        Hot
                       </div>
                     )}
                   </div>
@@ -197,7 +198,7 @@ export default function LeaderboardPage() {
                 <Link
                   key={shop.id}
                   href={`/shop/${shop.slug}`}
-                  className="donut-card flex items-center gap-4 p-4 md:p-6 hover:bg-muted/50 transition-colors"
+                  className="donut-card flex items-center gap-4 p-4 md:p-6 hover:bg-bg-card transition-colors"
                 >
                   {/* Rank */}
                   <div
@@ -207,33 +208,33 @@ export default function LeaderboardPage() {
                   </div>
 
                   {/* Image */}
-                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-muted flex items-center justify-center text-3xl flex-shrink-0">
+                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-bg-card flex items-center justify-center text-3xl flex-shrink-0 border border-border">
                     🏪
                   </div>
 
                   {/* Info */}
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-bold text-lg text-foreground truncate">{shop.name}</h4>
-                    <p className="text-sm text-foreground/60 truncate">
+                    <h4 className="font-bold text-lg text-text-primary truncate">{shop.name}</h4>
+                    <p className="text-sm text-text-muted truncate">
                       {shop.city}, {shop.state_code}
                     </p>
                     {shop.is_chain && (
-                      <span className="inline-block mt-1 px-2 py-0.5 bg-donut-sprinkles-blue/20 text-donut-sprinkles-blue rounded-full text-xs">
-                        🔗 National Chain
+                      <span className="tag tag-chain mt-1 inline-block">
+                        🔗 Chain
                       </span>
                     )}
                   </div>
 
                   {/* Vote count */}
                   <div className="text-right">
-                    <div className="font-bold text-xl md:text-2xl text-donut-chocolate counter-value">
+                    <div className="font-bold text-xl md:text-2xl text-donut-glaze counter-value">
                       {shop.vote_count.toLocaleString()}
                     </div>
-                    <div className="text-xs text-foreground/50">votes</div>
+                    <div className="text-xs text-text-muted">votes</div>
                     {index < 3 && (
                       <div className="flex items-center gap-1 justify-end mt-1 text-donut-sprinkles-green text-xs">
-                        <TrendingUp className="w-3 h-3" />
-                        Rising
+                        <Flame className="w-3 h-3" />
+                        Hot
                       </div>
                     )}
                   </div>
@@ -245,7 +246,7 @@ export default function LeaderboardPage() {
 
         {/* Load More */}
         <div className="text-center mt-8">
-          <button className="px-8 py-3 bg-white text-donut-pink border-2 border-donut-pink rounded-full font-semibold hover:bg-donut-pink hover:text-white transition-colors">
+          <button className="px-8 py-3 bg-bg-card text-donut-pink border border-border rounded-full font-semibold hover:border-donut-pink hover:bg-donut-pink/10 transition-all">
             Load More
           </button>
         </div>
