@@ -54,7 +54,7 @@ export default function Leaderboard({
 
           const { data } = await query
           if (data) {
-            setItems(data as (Donut | Shop)[])
+            setItems(data as unknown as (Donut | Shop)[])
           }
           setIsLoading(false)
         }
